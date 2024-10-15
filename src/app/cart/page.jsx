@@ -14,9 +14,7 @@ function Cart() {
 
     const updateQuantity = async (name, newQuantity) => {
         try {
-            const response = await axios.put(`http://localhost:3000/api/cart/${name}`, { quantity: newQuantity }, credentials, {
-                withCredentials: true,
-            });
+            const response = await axios.put(`http://localhost:3000/api/cart/${name}`, { quantity: newQuantity });
             console.log(response.data);
 
 
