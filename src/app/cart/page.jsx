@@ -14,7 +14,9 @@ function Cart() {
 
     const updateQuantity = async (name, newQuantity) => {
         try {
-            const response = await axios.put(`http://localhost:3000/api/cart/${name}`, { quantity: newQuantity });
+            const response = await axios.put(`http://localhost:3000/api/cart/${name}`, { quantity: newQuantity }, credentials, {
+                withCredentials: true,
+            });
             console.log(response.data);
 
 
@@ -38,7 +40,9 @@ function Cart() {
 
     async function handleRemoveFromCart(name) {
         try {
-            await axios.delete(`http://localhost:3000/api/cart/${name}`);
+            await axios.delete(`http://localhost:3000/api/cart/${name}`, credentials, {
+                withCredentials: true,
+            });
             const updatedCartItems = cartItems.filter(item => item.name !== name);
             setCartItems(updatedCartItems);
         } catch (error) {
@@ -52,7 +56,9 @@ function Cart() {
             if (totalPrice > 0) {
 
                 router.push('/place-order');
-                const response = await axios.delete('http://localhost:3000/api/cart');
+                const response = await axios.delete('http://localhost:3000/api/cart', credentials, {
+                    withCredentials: true,
+                });
                 console.log(response.data);
             }
 

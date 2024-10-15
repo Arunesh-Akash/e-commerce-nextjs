@@ -15,7 +15,9 @@ function Sign() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        const response = await axios.post('http://localhost:3000/api/users', user);
+        const response = await axios.post('http://localhost:3000/api/users', user, credentials, {
+            withCredentials: true,
+        });
         console.log(response);
         toast.success("User created successfully", {
             position: 'top-center'
@@ -79,12 +81,12 @@ function Sign() {
                             />
                         </div>
                         <div className='mt-5 text-center'>
-                        <button type='submit' className='bg-black text-white rounded-xl p-3 hover:opacity-70'>
-                                   Signup
-                                </button>
-                                <button type='reset' className='bg-black text-white rounded-xl p-3 mx-3 hover:opacity-70'>
-                                    Reset
-                                </button>
+                            <button type='submit' className='bg-black text-white rounded-xl p-3 hover:opacity-70'>
+                                Signup
+                            </button>
+                            <button type='reset' className='bg-black text-white rounded-xl p-3 mx-3 hover:opacity-70'>
+                                Reset
+                            </button>
                         </div>
 
                     </form>
