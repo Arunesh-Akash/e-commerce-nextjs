@@ -16,7 +16,7 @@ export async function POST(request) {
             const passwordMatch = bcrypt.compareSync(body.password, user.password);
             if (passwordMatch) {
                 const token = jwt.sign({ userId: user._id, name: user.name }, 'e-commerce');
-                const response = NextResponse.json({ message: 'Login Successfully', success: true ,user:user});
+                const response = NextResponse.json({ message: 'Login Successfully', success: true, user: { name: user.name, email: user.email } });
                 response.cookies.set('authToken', token, {
                     httpOnly: true,
                     maxAge: 86400,

@@ -16,7 +16,8 @@ export async function POST(request) {
             name: body.name,
             category: body.category,
             price: body.price,
-            image: Buffer.from(body.image),
+            image: body.image,
+            quantity: 1,
             userId: userData.userId
         })
         await connectDb();
@@ -35,10 +36,23 @@ export async function GET(request) {
             return;
         }
         const userData = jwt.verify(authToken, 'e-commerce');
-        const response=await Cart.find({userId:userData.userId});
+        const response = await Cart.find({ userId: userData.userId });
         return NextResponse.json(response);
     } catch (error) {
         console.log(error);
         return NextResponse.json(error);
+    }
+}
+
+export async function DELETE() {
+    try {
+        await connectDb();
+
+        await Cart.deleteMany({});
+
+        return NextResponse.json({ message: 'Delete all the items in the cart' })
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json(error)
     }
 }

@@ -8,14 +8,14 @@ import axios from 'axios';
 
 function CustomNav() {
     const { cartItems } = useContext(Cartcontext);
-    const { user,setUser } = useContext(UserContext);
-   
+    const { user, setUser } = useContext(UserContext);
+
     async function handleLogOut() {
         try {
+            localStorage.removeItem('currentUser');
             const response = await axios.post('http://localhost:3000/api/logout');
             console.log(response);
             setUser(null);
-            localStorage.clear('currentUser');
         } catch (error) {
             console.log(error);
         }
@@ -31,7 +31,7 @@ function CustomNav() {
                 </ul>
             </div>
             <div>
-                <h1 className='text-4xl font-black mr-10'>T-SHIRTS</h1>
+                <Link href={'/'}><h1 className='text-4xl font-black mr-10'>T-SHIRTS</h1></Link>
                 <hr />
                 <div className='flex gap-6 text-lg ml-3'>
                     <p>s</p>
@@ -54,20 +54,21 @@ function CustomNav() {
                             )}
                         </div>
                     </Link>
-                    {!user && (
+                    {!user ? (
                         <Link href={'/login'}>LOG IN</Link>
 
-                    )}
-                    {user && (
-                        <>
-                            <li>{user.name}</li>
-                            <button onClick={handleLogOut}><li>LOG OUT</li></button>
-                        </>
-                    )}
+                    ) :
+                        (
+                            <>
+                                <li>{user.name}</li>
+                                <button onClick={handleLogOut}><li>LOG OUT</li></button>
+                            </>
+                        )}
                 </ul>
             </div>
         </div>
     )
 }
+
 
 export default CustomNav

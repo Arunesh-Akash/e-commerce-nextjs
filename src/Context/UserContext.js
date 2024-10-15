@@ -9,14 +9,13 @@ export const UserContext = createContext();
 
 
 const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(undefined);
+    const [user, setUser] = useState(null);
     useEffect(() => {
         const loadUser = async () => {
 
             try {
-
-                const response = await axios.get('http://localhost:3000/api/current');
-                setUser(response.data);
+                const currentUser = JSON.parse(localStorage.getItem('currentUser')) || null
+                setUser(currentUser);
 
 
             } catch (error) {

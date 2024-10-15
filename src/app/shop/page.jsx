@@ -8,18 +8,20 @@ import product3 from '../../assessts/product3.jpg';
 import product4 from '../../assessts/product4.jpg';
 import product5 from '../../assessts/product5.jpg';
 import product6 from '../../assessts/product6.jpg';
-import { Cartcontext } from '@/Context/CartContext';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import CustomStar from '../Component/CustomStar';
 
 function Shop() {
     const [sortBy, setSortBy] = useState('default');
+    const router = useRouter();
     const [products, setProducts] = useState([
-        { id: 1, name: 'T-Shirt Name 1', category: 'MEN', price: 33.00, image: product1 },
-        { id: 2, name: 'T-Shirt Name 2', category: 'WOMEN', price: 23.00, image: product2 },
-        { id: 3, name: 'T-Shirt Name 3', category: 'MEN', price: 21.00, image: product3 },
-        { id: 4, name: 'T-Shirt Name 4', category: 'WOMEN', price: 36.00, image: product4 },
-        { id: 5, name: 'T-Shirt Name 5', category: 'WOMEN', price: 18.00, image: product5 },
-        { id: 6, name: 'T-Shirt Name 6', category: 'MEN', price: 17.00, image: product6 },
+        { id: 1, name: 'T-Shirt Name 1', category: 'MEN', price: 33.00, image: product1, star: 1.5 },
+        { id: 2, name: 'T-Shirt Name 2', category: 'WOMEN', price: 23.00, image: product2, star: 2.3 },
+        { id: 3, name: 'T-Shirt Name 3', category: 'MEN', price: 21.00, image: product3, star: 3.5 },
+        { id: 4, name: 'T-Shirt Name 4', category: 'WOMEN', price: 36.00, image: product4, star: 5 },
+        { id: 5, name: 'T-Shirt Name 5', category: 'WOMEN', price: 18.00, image: product5, star: 4.4 },
+        { id: 6, name: 'T-Shirt Name 6', category: 'MEN', price: 17.00, image: product6, star: 3 },
     ]);
 
     const sortProducts = (criteria) => {
@@ -35,14 +37,27 @@ function Shop() {
 
     async function handleSubmit(product) {
         try {
-            const productData = {
-                name: product.name,
-                category: product.category,
-                price: product.price,
-                image: product.image.src
-            };
-            const response = await axios.post('http://localhost:3000/api/cart', productData);
-            console.log(response.data);
+            const { data: cartItems } = await axios.get('http://localhost:3000/api/cart');
+            const existingProduct = cartItems.find(cartItem => cartItem.name === product.name)
+            if (existingProduct) {
+
+                const newQuantity = existingProduct.quantity + 1;
+                const name = product.name;
+                const response = await axios.put(`http://localhost:3000/api/cart/${name}`, { quantity: newQuantity })
+                console.log(response.data)
+            }
+            else {
+                const productData = {
+                    name: product.name,
+                    category: product.category,
+                    price: product.price,
+                    image: product.image.src,
+
+                };
+                const response = await axios.post('http://localhost:3000/api/cart', productData);
+                console.log(response.data);
+            }
+
         } catch (error) {
             console.log(error);
         }
@@ -68,6 +83,7 @@ function Shop() {
                         <Image src={product.image} alt={`Product ${product.id}`} height={398} width={332} />
                         <span className="font-light text-xs">{product.category}</span>
                         <p className="font-bold ml-2">{product.name}</p>
+                        <CustomStar star={product.star} />
                         <div className='flex justify-between'>
                             <p className="font-bold ml-2">${product.price.toFixed(2)}</p>
                             <button className='mr-6 text-2xl' onClick={() => handleSubmit(product)}><FaCartPlus /></button>

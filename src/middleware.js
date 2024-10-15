@@ -21,6 +21,7 @@ export const config = {
   matcher: [
     "/cart",
     "/shop",
+    "/place-order"
 ],
 }
 

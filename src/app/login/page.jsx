@@ -11,8 +11,8 @@ import { UserContext } from '@/Context/UserContext';
 
 
 function Login() {
-    const router=useRouter();
-    const {setUser} =useContext(UserContext);
+    const router = useRouter();
+    const { setUser } = useContext(UserContext);
     const [currentUser, setCurrentUser] = useState({
         email: '',
         password: ''
@@ -25,13 +25,16 @@ function Login() {
             toast.success('Login Successfully', {
                 position: 'top-center'
             });
-            setUser(response.data.user);
+
+            localStorage.setItem('currentUser', JSON.stringify(response.data.user));
+            setUser(response.data.user)
             setCurrentUser({
                 email: '',
                 password: ''
             })
-            console.log(response);
+
             router.push('/shop');
+
         } catch (error) {
             console.log(error);
         }
