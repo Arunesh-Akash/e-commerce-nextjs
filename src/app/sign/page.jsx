@@ -15,7 +15,7 @@ function Sign() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        const response = await axios.post('http://localhost:3000/api/users', user, credentials, {
+        const response = await axios.post('http://localhost:3000/api/users', user, {
             withCredentials: true,
         });
         console.log(response);

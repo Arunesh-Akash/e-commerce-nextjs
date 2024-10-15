@@ -21,7 +21,7 @@ function Login() {
     async function handleSubmit(e) {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3000/api/login', currentUser ,credentials, {
+            const response = await axios.post('http://localhost:3000/api/login', currentUser , {
                 withCredentials: true,
               });
             toast.success('Login Successfully', {

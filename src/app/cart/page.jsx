@@ -40,7 +40,7 @@ function Cart() {
 
     async function handleRemoveFromCart(name) {
         try {
-            await axios.delete(`http://localhost:3000/api/cart/${name}`, credentials, {
+            await axios.delete(`http://localhost:3000/api/cart/${name}`, {
                 withCredentials: true,
             });
             const updatedCartItems = cartItems.filter(item => item.name !== name);
@@ -56,7 +56,7 @@ function Cart() {
             if (totalPrice > 0) {
 
                 router.push('/place-order');
-                const response = await axios.delete('http://localhost:3000/api/cart', credentials, {
+                const response = await axios.delete('http://localhost:3000/api/cart', {
                     withCredentials: true,
                 });
                 console.log(response.data);

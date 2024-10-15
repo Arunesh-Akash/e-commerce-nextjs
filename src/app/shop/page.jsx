@@ -37,7 +37,7 @@ function Shop() {
 
     async function handleSubmit(product) {
         try {
-            const { data: cartItems } = await axios.get('http://localhost:3000/api/cart', credentials, {
+            const { data: cartItems } = await axios.get('http://localhost:3000/api/cart', {
                 withCredentials: true,
             });
             const existingProduct = cartItems.find(cartItem => cartItem.name === product.name)
@@ -45,7 +45,7 @@ function Shop() {
 
                 const newQuantity = existingProduct.quantity + 1;
                 const name = product.name;
-                const response = await axios.put(`http://localhost:3000/api/cart/${name}`, { quantity: newQuantity }, credentials, {
+                const response = await axios.put(`http://localhost:3000/api/cart/${name}`, { quantity: newQuantity },  {
                     withCredentials: true,
                 })
                 console.log(response.data)
@@ -58,7 +58,7 @@ function Shop() {
                     image: product.image.src,
 
                 };
-                const response = await axios.post('http://localhost:3000/api/cart', productData, credentials, {
+                const response = await axios.post('http://localhost:3000/api/cart', productData, {
                     withCredentials: true,
                 });
                 console.log(response.data);
