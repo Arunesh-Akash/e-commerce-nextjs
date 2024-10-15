@@ -4,7 +4,7 @@ export function middleware(request) {
     const authToken=request.cookies.get('authToken');
 
     const userNotLoggedIn=request.nextUrl.pathname==="/login";
-    console.log('middleware excuted');
+    console.log('middleware executed');
     console.log(authToken);
     if(userNotLoggedIn && authToken){
         return NextResponse.redirect(new URL('/shop',request.url));
